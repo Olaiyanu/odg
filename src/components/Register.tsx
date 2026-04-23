@@ -1,13 +1,17 @@
-import { motion } from "framer-motion";
-import { Link, useSearchParams } from "react-router-dom";
-import { ArrowLeft, UtensilsCrossed, Store, Bike, Eye, Zap } from "lucide-react";
-import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { ArrowLeft, UtensilsCrossed, Store, Bike, Eye, Zap, CheckCircle2, Loader2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import confetti from "canvas-confetti";
 
 export default function Register() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [selectedRole, setSelectedRole] = useState(searchParams.get("role") || "student");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     const role = searchParams.get("role");
@@ -25,8 +29,90 @@ export default function Register() {
     { id: "rider", label: "Rider", icon: <Bike size={18} /> },
   ];
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate registration process
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // Save mock user session
+    localStorage.setItem("userRole", selectedRole);
+    localStorage.setItem("isLoggedIn", "true");
+
+    setIsSubmitting(false);
+    setIsSuccess(true);
+
+    // Trigger confetti
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#FF0000', '#000000', '#FFFFFF']
+    });
+
+    // Final redirection after animation
+    setTimeout(() => {
+      if (selectedRole === "student") {
+        navigate("/dashboard");
+      } else if (selectedRole === "vendor") {
+        navigate("/vendor-dashboard");
+      } else {
+        navigate("/rider-dashboard");
+      }
+    }, 3000);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-white md:bg-transparent">
+    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-white md:bg-transparent overflow-hidden">
+      <AnimatePresence>
+        {isSuccess && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center p-6 text-center"
+          >
+            <motion.div
+              initial={{ scale: 0, rotate: -20 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", damping: 12, stiffness: 200 }}
+              className="w-24 h-24 bg-brand-500 rounded-[32px] flex items-center justify-center text-white mb-8 shadow-2xl shadow-brand-500/30"
+            >
+              <CheckCircle2 size={48} strokeWidth={3} />
+            </motion.div>
+            
+            <motion.h2
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-4xl md:text-5xl font-black text-black tracking-tighter mb-4"
+            >
+              Registered Successfully!
+            </motion.h2>
+            
+            <motion.p
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-gray-400 text-lg font-medium max-w-sm"
+            >
+              Welcome to ODG. We're getting your {selectedRole} dashboard ready...
+            </motion.p>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-12 flex items-center space-x-2 text-brand-500 font-black text-xs uppercase tracking-widest"
+            >
+              <Loader2 size={16} className="animate-spin" />
+              <span>Redirecting...</span>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Left Column: Red Branding - visible on desktop, hidden on mobile */}
       <div className="hidden md:flex md:w-[45%] lg:w-[48%] bg-brand-500 relative overflow-hidden flex-col p-12 lg:p-20 justify-between">
         {/* Grid Background */}
@@ -129,12 +215,13 @@ export default function Register() {
             ))}
           </div>
 
-          <form className="space-y-4 md:space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-1.5 md:space-y-2">
               <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black">
                 {selectedRole === "vendor" ? "Restaurant name" : "Full name"}
               </label>
               <input 
+                required
                 type="text" 
                 placeholder={selectedRole === "vendor" ? "Restaurant name" : "Full name"}
                 className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[14px] md:rounded-[18px] px-5 md:px-6 py-3.5 md:py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
@@ -144,6 +231,7 @@ export default function Register() {
             <div className="space-y-1.5 md:space-y-2">
               <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black">Email address</label>
               <input 
+                required
                 type="email" 
                 placeholder={selectedRole === "student" ? "student@university.edu" : "your@email.com"}
                 className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[14px] md:rounded-[18px] px-5 md:px-6 py-3.5 md:py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
@@ -154,6 +242,7 @@ export default function Register() {
               <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black">Password</label>
               <div className="relative">
                 <input 
+                  required
                   type={showPassword ? "text" : "password"} 
                   placeholder="Min 8 characters"
                   className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[14px] md:rounded-[18px] px-5 md:px-6 py-3.5 md:py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
@@ -172,6 +261,7 @@ export default function Register() {
               <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black">Confirm password</label>
               <div className="relative">
                 <input 
+                  required
                   type={showConfirmPassword ? "text" : "password"} 
                   placeholder="Repeat your password"
                   className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[14px] md:rounded-[18px] px-5 md:px-6 py-3.5 md:py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
@@ -186,13 +276,23 @@ export default function Register() {
               </div>
             </div>
 
-            <button className="w-full bg-brand-500 text-white font-black py-4 md:py-5 rounded-[18px] md:rounded-[22px] shadow-xl shadow-brand-500/20 hover:bg-brand-600 transition-all flex items-center justify-center space-x-2 text-[10px] md:text-xs uppercase tracking-widest mt-2 md:mt-4">
-              <Zap size={14} fill="currentColor" />
-              <span>
-                {selectedRole === "student" && "Sign up as Student"}
-                {selectedRole === "vendor" && "Register Restaurant"}
-                {selectedRole === "rider" && "Become a Rider"}
-              </span>
+            <button 
+              disabled={isSubmitting}
+              type="submit"
+              className="w-full bg-brand-500 text-white font-black py-4 md:py-5 rounded-[18px] md:rounded-[22px] shadow-xl shadow-brand-500/20 hover:bg-brand-600 transition-all flex items-center justify-center space-x-2 text-[10px] md:text-xs uppercase tracking-widest mt-2 md:mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <>
+                  <Zap size={14} fill="currentColor" />
+                  <span>
+                    {selectedRole === "student" && "Sign up as Student"}
+                    {selectedRole === "vendor" && "Register Restaurant"}
+                    {selectedRole === "rider" && "Become a Rider"}
+                  </span>
+                </>
+              )}
             </button>
           </form>
 

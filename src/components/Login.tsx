@@ -1,10 +1,32 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Eye, Zap } from "lucide-react";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Eye, Zap, Loader2 } from "lucide-react";
+import React, { useState } from "react";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate login delay
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // Get saved role or default to student
+    const role = localStorage.getItem("userRole") || "student";
+    localStorage.setItem("isLoggedIn", "true");
+
+    if (role === "vendor") {
+      navigate("/vendor-dashboard");
+    } else if (role === "rider") {
+      navigate("/rider-dashboard");
+    } else {
+      navigate("/dashboard");
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row font-sans">
@@ -73,10 +95,11 @@ export default function Login() {
             </p>
           </div>
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={handleLogin}>
             <div className="space-y-2">
               <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Email address</label>
               <input 
+                required
                 type="email" 
                 placeholder="you@university.edu"
                 className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[18px] px-6 py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
@@ -89,6 +112,7 @@ export default function Login() {
               </div>
               <div className="relative">
                 <input 
+                  required
                   type={showPassword ? "text" : "password"} 
                   placeholder="Your password"
                   className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[18px] px-6 py-5 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
@@ -108,9 +132,18 @@ export default function Login() {
               </div>
             </div>
 
-            <button className="w-full bg-brand-500 text-white font-black py-5 rounded-[22px] shadow-xl shadow-brand-500/20 hover:bg-brand-600 transition-all flex items-center justify-center space-x-2 text-xs uppercase tracking-widest mt-4">
-              <Zap size={14} fill="currentColor" />
-              <span>Sign in</span>
+            <button 
+              disabled={isSubmitting}
+              className="w-full bg-brand-500 text-white font-black py-5 rounded-[22px] shadow-xl shadow-brand-500/20 hover:bg-brand-600 transition-all flex items-center justify-center space-x-2 text-xs uppercase tracking-widest mt-4 disabled:opacity-70 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <>
+                  <Zap size={14} fill="currentColor" />
+                  <span>Sign in</span>
+                </>
+              )}
             </button>
           </form>
 
