@@ -26,8 +26,8 @@ export default function Register() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row font-sans">
-      {/* Left Column: Red Branding */}
+    <div className="min-h-screen flex flex-col md:flex-row font-sans bg-white md:bg-transparent">
+      {/* Left Column: Red Branding - visible on desktop, hidden on mobile */}
       <div className="hidden md:flex md:w-[45%] lg:w-[48%] bg-brand-500 relative overflow-hidden flex-col p-12 lg:p-20 justify-between">
         {/* Grid Background */}
         <div className="absolute inset-0 bg-grid-white opacity-20 pointer-events-none" />
@@ -94,13 +94,13 @@ export default function Register() {
             Back to home
           </Link>
 
-          <div className="mb-10">
-            <h2 className="text-4xl font-black text-black tracking-tighter mb-2">
+          <div className="mb-8 md:mb-10">
+            <h2 className="text-3xl md:text-4xl font-black text-black tracking-tighter mb-2">
               {selectedRole === "student" && "Join as Student"}
               {selectedRole === "vendor" && "Partner as Vendor"}
               {selectedRole === "rider" && "Earn as Rider"}
             </h2>
-            <p className="text-gray-500 text-[13px] font-medium tracking-tight">
+            <p className="text-gray-500 text-xs md:text-[13px] font-medium tracking-tight">
               {selectedRole === "student" && "Access the best meals on your campus instantly."}
               {selectedRole === "vendor" && "Digitalize your restaurant and reach thousands of students."}
               {selectedRole === "rider" && "The most flexible way to earn on your own schedule."}
@@ -108,12 +108,12 @@ export default function Register() {
           </div>
 
           {/* Role Switcher */}
-          <div className="grid grid-cols-3 gap-3 mb-10">
+          <div className="grid grid-cols-3 gap-2 md:gap-3 mb-8 md:mb-10">
             {roles.map((role) => (
               <button
                 key={role.id}
                 onClick={() => handleRoleChange(role.id)}
-                className={`p-6 rounded-[20px] border flex flex-col items-center justify-center transition-all ${
+                className={`p-4 md:p-6 rounded-[16px] md:rounded-[20px] border flex flex-col items-center justify-center transition-all ${
                   selectedRole === role.id 
                   ? "border-brand-500 bg-white ring-1 ring-brand-500" 
                   : "border-gray-100 bg-[#F9FAFB] hover:border-gray-200"
@@ -122,71 +122,71 @@ export default function Register() {
                 <div className={`${selectedRole === role.id ? "text-brand-500" : "text-gray-400"}`}>
                   {role.icon}
                 </div>
-                <span className={`text-[11px] font-black uppercase tracking-wider mt-3 ${selectedRole === role.id ? "text-brand-500" : "text-gray-400"}`}>
+                <span className={`text-[9px] md:text-[11px] font-black uppercase tracking-wider mt-2 md:mt-3 ${selectedRole === role.id ? "text-brand-500" : "text-gray-400"}`}>
                   {role.label}
                 </span>
               </button>
             ))}
           </div>
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-            <div className="space-y-2">
-              <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">
+          <form className="space-y-4 md:space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <div className="space-y-1.5 md:space-y-2">
+              <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black">
                 {selectedRole === "vendor" ? "Restaurant name" : "Full name"}
               </label>
               <input 
                 type="text" 
                 placeholder={selectedRole === "vendor" ? "Restaurant name" : "Full name"}
-                className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[18px] px-6 py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
+                className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[14px] md:rounded-[18px] px-5 md:px-6 py-3.5 md:py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Email address</label>
+            <div className="space-y-1.5 md:space-y-2">
+              <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black">Email address</label>
               <input 
                 type="email" 
                 placeholder={selectedRole === "student" ? "student@university.edu" : "your@email.com"}
-                className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[18px] px-6 py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
+                className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[14px] md:rounded-[18px] px-5 md:px-6 py-3.5 md:py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Password</label>
+            <div className="space-y-1.5 md:space-y-2">
+              <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black">Password</label>
               <div className="relative">
                 <input 
                   type={showPassword ? "text" : "password"} 
                   placeholder="Min 8 characters"
-                  className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[18px] px-6 py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
+                  className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[14px] md:rounded-[18px] px-5 md:px-6 py-3.5 md:py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
                 />
                 <button 
                   type="button" 
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
+                  className="absolute right-4 md:right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
                 >
-                  <Eye size={18} />
+                  <Eye size={16} />
                 </button>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Confirm password</label>
+            <div className="space-y-1.5 md:space-y-2">
+              <label className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-black">Confirm password</label>
               <div className="relative">
                 <input 
                   type={showConfirmPassword ? "text" : "password"} 
                   placeholder="Repeat your password"
-                  className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[18px] px-6 py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
+                  className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[14px] md:rounded-[18px] px-5 md:px-6 py-3.5 md:py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
                 />
                 <button 
                   type="button" 
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
+                  className="absolute right-4 md:right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors"
                 >
-                  <Eye size={18} />
+                  <Eye size={16} />
                 </button>
               </div>
             </div>
 
-            <button className="w-full bg-brand-500 text-white font-black py-5 rounded-[22px] shadow-xl shadow-brand-500/20 hover:bg-brand-600 transition-all flex items-center justify-center space-x-2 text-xs uppercase tracking-widest mt-4">
+            <button className="w-full bg-brand-500 text-white font-black py-4 md:py-5 rounded-[18px] md:rounded-[22px] shadow-xl shadow-brand-500/20 hover:bg-brand-600 transition-all flex items-center justify-center space-x-2 text-[10px] md:text-xs uppercase tracking-widest mt-2 md:mt-4">
               <Zap size={14} fill="currentColor" />
               <span>
                 {selectedRole === "student" && "Sign up as Student"}
@@ -196,16 +196,16 @@ export default function Register() {
             </button>
           </form>
 
-          <div className="relative my-10">
+          <div className="relative my-8 md:my-10">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-100"></div>
             </div>
-            <div className="relative flex justify-center text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 bg-white px-4">
+            <div className="relative flex justify-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-gray-300 bg-white px-4">
               OR
             </div>
           </div>
 
-          <button className="w-full border border-gray-100 bg-white text-black font-black py-4 rounded-[22px] hover:bg-gray-50 transition-all flex items-center justify-center space-x-3 text-[12px] shadow-sm">
+          <button className="w-full border border-gray-100 bg-white text-black font-black py-4 rounded-[18px] md:rounded-[22px] hover:bg-gray-50 transition-all flex items-center justify-center space-x-3 text-[11px] md:text-[12px] shadow-sm">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5" />
             <span>Continue with Google</span>
           </button>
