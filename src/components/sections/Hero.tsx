@@ -25,13 +25,13 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-8"
+              className="text-4xl sm:text-6xl lg:text-[68px] font-black text-white leading-[0.9] tracking-tighter mb-8"
             >
               Campus meals.<br />
               Delivered in<br />
               <span className="relative inline-block mt-4">
                 <span className="relative z-10">15 min.</span>
-                <span className="absolute -top-6 left-0 text-3xl md:text-4xl text-white/40 line-through font-bold italic tracking-normal">forever.</span>
+                <span className="absolute -top-6 left-0 text-2xl sm:text-3xl md:text-4xl text-white/40 line-through font-bold italic tracking-normal">forever.</span>
               </span>
             </motion.h1>
 

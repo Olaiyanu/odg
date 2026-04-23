@@ -27,7 +27,7 @@ export default function Campuses() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-6xl md:text-8xl font-black text-black leading-[0.9] tracking-tighter mb-8"
+            className="text-4xl lg:text-[68px] font-black text-black leading-[0.9] tracking-tighter mb-8"
           >
             Active <span className="text-brand-500">campuses.</span>
           </motion.h2>

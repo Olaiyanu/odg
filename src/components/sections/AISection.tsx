@@ -23,7 +23,7 @@ export default function AISection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-6xl md:text-8xl font-black text-black mb-8 leading-[0.8] tracking-tighter"
+            className="text-4xl lg:text-[68px] font-black text-black mb-8 leading-[0.8] tracking-tighter"
           >
             What are you <br />
             <span className="text-brand-500 italic block mt-2">craving?</span>
@@ -45,18 +45,18 @@ export default function AISection() {
             viewport={{ once: true }}
             className="relative max-w-2xl mx-auto"
           >
-            <div className="relative group">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors" size={20} />
+            <div className="relative group flex flex-col sm:block">
+              <Search className="absolute left-6 top-6 sm:top-1/2 sm:-translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors z-10" size={20} />
               <input
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="e.g., 'budget ₦2500, something spicy near Block D'"
-                className="w-full bg-white border border-gray-200 rounded-full pl-16 pr-40 py-6 text-black text-sm font-medium focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-xl shadow-gray-200/50"
+                className="w-full bg-white border border-gray-200 rounded-[24px] sm:rounded-full pl-16 pr-6 sm:pr-40 py-6 text-black text-sm font-medium focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-xl shadow-gray-200/50"
               />
-              <button className="absolute right-3 top-1/2 -translate-y-1/2 bg-brand-500 text-white px-8 py-4 rounded-full flex items-center space-x-2 hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/20">
+              <button className="mt-4 sm:mt-0 sm:absolute sm:right-3 sm:top-1/2 sm:-translate-y-1/2 bg-brand-500 text-white px-8 py-5 sm:py-4 rounded-[20px] sm:rounded-full flex items-center justify-center space-x-2 hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/20 active:scale-95 transition-transform">
                 <Search size={16} fill="currentColor" />
-                <span className="text-xs font-black uppercase tracking-wider">Find Food</span>
+                <span className="text-xs font-black uppercase tracking-wider whitespace-nowrap">Find Food</span>
               </button>
             </div>
           </motion.div>
