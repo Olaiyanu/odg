@@ -87,9 +87,13 @@ export default function Navbar() {
           >
             Join
           </a>
-          <button className="w-full mt-4 bg-brand-600 text-white px-5 py-3 rounded-xl text-base font-semibold hover:bg-brand-700 transition-colors">
-            Get Started
-          </button>
+          <Link 
+            to="/login"
+            className="block w-full mt-4 bg-brand-500 text-white px-5 py-3 rounded-xl text-center text-base font-semibold hover:bg-brand-600 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Sign In
+          </Link>
         </motion.div>
       )}
       {/* Minimal Active Order Popup */}
