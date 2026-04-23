@@ -95,9 +95,15 @@ export default function Register() {
           </Link>
 
           <div className="mb-10">
-            <h2 className="text-4xl font-black text-black tracking-tighter mb-2">Create account</h2>
+            <h2 className="text-4xl font-black text-black tracking-tighter mb-2">
+              {selectedRole === "student" && "Join as Student"}
+              {selectedRole === "vendor" && "Partner as Vendor"}
+              {selectedRole === "rider" && "Earn as Rider"}
+            </h2>
             <p className="text-gray-500 text-[13px] font-medium tracking-tight">
-              Choose your role and fill in your details.
+              {selectedRole === "student" && "Access the best meals on your campus instantly."}
+              {selectedRole === "vendor" && "Digitalize your restaurant and reach thousands of students."}
+              {selectedRole === "rider" && "The most flexible way to earn on your own schedule."}
             </p>
           </div>
 
@@ -139,7 +145,7 @@ export default function Register() {
               <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Email address</label>
               <input 
                 type="email" 
-                placeholder="you@university.edu"
+                placeholder={selectedRole === "student" ? "student@university.edu" : "your@email.com"}
                 className="w-full bg-[#F9FAFB] border border-gray-100 rounded-[18px] px-6 py-4 text-[13px] text-black focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 focus:bg-white outline-none transition-all placeholder:text-gray-300 font-medium"
               />
             </div>
@@ -182,7 +188,11 @@ export default function Register() {
 
             <button className="w-full bg-brand-500 text-white font-black py-5 rounded-[22px] shadow-xl shadow-brand-500/20 hover:bg-brand-600 transition-all flex items-center justify-center space-x-2 text-xs uppercase tracking-widest mt-4">
               <Zap size={14} fill="currentColor" />
-              <span>Sign up & continue</span>
+              <span>
+                {selectedRole === "student" && "Sign up as Student"}
+                {selectedRole === "vendor" && "Register Restaurant"}
+                {selectedRole === "rider" && "Become a Rider"}
+              </span>
             </button>
           </form>
 
